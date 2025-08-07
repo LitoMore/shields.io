@@ -1,4 +1,4 @@
-import { fromString } from 'css-color-converter'
+import colour from 'color'
 
 // When updating these, be sure also to update the list in `badge-maker/README.md`.
 export const namedColors = {
@@ -35,24 +35,38 @@ export function isHexColor(s = '') {
   return hexColorRegex.test(s)
 }
 
-function isCSSColor(color) {
-  return typeof color === 'string' && fromString(color.trim())
+function getCssColor(color) {
+  if (typeof color !== 'string') return undefined
+  try {
+    const cssColor = colour(color.trim())
+    return cssColor
+  } catch (error) {
+    console.error(color, error)
+    return undefined
+  }
 }
 
 export function normalizeColor(color) {
   if (color === undefined) {
     return undefined
-  } else if (color in namedColors) {
-    return color
-  } else if (color in aliases) {
-    return aliases[color]
-  } else if (isHexColor(color)) {
-    return `#${color.toString().toLowerCase()}`
-  } else if (isCSSColor(color)) {
-    return color.toLowerCase()
-  } else {
-    return undefined
   }
+  if (color in namedColors) {
+    return color
+  }
+  if (color in aliases) {
+    return aliases[color]
+  }
+  if (isHexColor(color)) {
+    return `#${color.toString().toLowerCase()}`
+  }
+  const cssColor = getCssColor(color)
+  if (cssColor) {
+    if (color.startsWith('hwb(')) {
+      return cssColor.hwb().string()
+    }
+    return color.toLowerCase()
+  }
+  return undefined
 }
 
 export function toSvgColor(color) {
@@ -67,12 +81,14 @@ export function toSvgColor(color) {
 }
 
 export function brightness(color) {
-  if (color) {
-    const cssColor = fromString(color)
+  if (!color) return 0
+  try {
+    const cssColor = colour(color)
+
     if (cssColor) {
-      const rgb = cssColor.toRgbaArray()
+      const rgb = cssColor.rgb().array()
       return +((rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 255000).toFixed(2)
     }
-  }
+  } catch {}
   return 0
 }

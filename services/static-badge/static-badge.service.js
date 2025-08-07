@@ -54,7 +54,7 @@ Examples of additional options:
   </li>
 </ul>
 
-<i>Hex, rgb, rgba, hsl, hsla and css named colors may be used. <b>Note:</b> Some named colors may differ from CSS color values. For a list of named colors, see the <a href="https://github.com/badges/shields/tree/master/badge-maker#colors" target="_blank">badge-maker readme</a>.</i>
+<i>Hex, rgb, rgba, hsl, hsla, hwb and css named colors may be used. For a list of named colors, see the <a href="https://github.com/badges/shields/tree/master/badge-maker#colors" target="_blank">badge-maker readme</a>.</i>
 `
 
 export default class StaticBadge extends BaseStaticService {
