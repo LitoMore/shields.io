@@ -25,6 +25,7 @@ runs:
       uses: actions/setup-node@v6
       with:
         node-version: ${{ inputs.node-version }}
+        node-version-file: ${{ inputs.node-version-file }}
 
     - name: Install NPM ${{ inputs.npm-version }}
       run: npm install -g npm@${{ inputs.npm-version }}
