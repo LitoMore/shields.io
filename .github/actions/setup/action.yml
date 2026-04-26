@@ -3,7 +3,10 @@ description: 'Set up project'
 inputs:
   node-version:
     description: 'Version Spec of the node version to use. Examples: 12.x, 10.15.1, >=10.15.0.'
-    required: true
+    required: false
+  node-version-file:
+    description: 'Path to a file containing the node version to use. Examples: .nvmrc, .node-version.'
+    required: false
   npm-version:
     description: 'Version Spec of the npm version to use. Examples: 9.x, 10.2.3, >=10.1.0.'
     required: false
